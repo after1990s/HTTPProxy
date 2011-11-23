@@ -2,6 +2,8 @@
 
 #include "resource.h"
 #include "initsock.h"
+#include <Windows.h>
+#define SINGLE 
 CInitSock _CInitSock;
 
 typedef struct Client_{
@@ -11,11 +13,12 @@ typedef struct Client_{
 	HANDLE hThread;
 	HANDLE hEvents[2]; // 0 for sClient, 1 for sServer
 	bool bValid;
+	struct Client_ *pNext;
 } CLIENT, *PCLIENT;
-LPCRITICAL_SECTION g_pClientLink;
+LPCRITICAL_SECTION g_pClientCs;
 PCLIENT g_pClientLink;
 HANDLE g_RecycleEvent;
-int g_BanList[1024];
+ULONG g_BanList[1024];
 
 
 void ServerMainThread(void* Unused);
